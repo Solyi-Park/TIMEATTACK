@@ -31,7 +31,7 @@ function Todo({ todo, isActive }) {
     console.log(todo.id, !todo.isDone);
     switchMutate(payload, {
       onSuccess: () => {
-        queryClient.invalidateQueries(QUERY_KEYS.TODOS)
+        queryClient.invalidateQueries(QUERY_KEYS.TODOS);
       }
     });
   };
@@ -39,7 +39,9 @@ function Todo({ todo, isActive }) {
   // [삭제] 버튼 선택 시 호출되는 함수(user의 confirmation 필요)
   const handleRemoveButton = () => {
     deleteMutate(todo.id, {
-      onSuccess: queryClient.invalidateQueries(QUERY_KEYS.TODOS)
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEYS.TODOS);
+      }
     });
   };
 

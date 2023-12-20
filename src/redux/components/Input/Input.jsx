@@ -74,7 +74,9 @@ function Input() {
     // todo를 추가하는 reducer 호출
     // 인자 : payload
     addMutate(newTodo, {
-      onSuccess: queryClient.invalidateQueries(QUERY_KEYS.TODOS)
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEYS.TODOS);
+      }
     });
 
     // state 두 개를 초기화

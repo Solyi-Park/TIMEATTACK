@@ -1,30 +1,6 @@
 {
   "todos": [
     {
-      "title": "aaaa",
-      "contents": "bbbbbbbb",
-      "isDone": false,
-      "id": "f808d272-4e0f-42da-82bb-7909721be667"
-    },
-    {
-      "title": "asdfasdf",
-      "contents": "sdfasdfasda",
-      "isDone": true,
-      "id": "wgneLmu"
-    },
-    {
-      "title": "da",
-      "contents": "asdfas",
-      "isDone": true,
-      "id": "ZBDhDmW"
-    },
-    {
-      "title": "asdasd",
-      "contents": "asdasd",
-      "isDone": false,
-      "id": "2q8G3am"
-    },
-    {
       "title": "되는건가?",
       "contents": "?",
       "isDone": false,
@@ -33,8 +9,26 @@
     {
       "title": "안녕",
       "contents": "안녕",
-      "isDone": false,
+      "isDone": true,
       "id": "jF8caDM"
+    },
+    {
+      "title": "투타님 짱",
+      "contents": "짱짱",
+      "isDone": false,
+      "id": "ulk36MY"
+    },
+    {
+      "title": "ㅋㅋ",
+      "contents": "ㅋ",
+      "isDone": false,
+      "id": "FwTEXLo"
+    },
+    {
+      "title": "되나?",
+      "contents": "?",
+      "isDone": false,
+      "id": "lRpHYHG"
     }
   ]
 }
