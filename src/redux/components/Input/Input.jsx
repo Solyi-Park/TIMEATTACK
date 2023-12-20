@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import LabledInput from "../common/LabledInput";
-import HeightBox from "../common/HeightBox";
-import { StyledButton } from "./styles";
-import { FlexDiv } from "./styles";
-import RightMarginBox from "../common/RightMarginBox";
-import "./styles";
-import { StyledDiv } from "./styles";
-import { addTodo } from "../../../api/todos";
-import { useMutation, useQueryClient } from "react-query";
+import React, { useState } from 'react';
+import LabledInput from '../common/LabledInput';
+import HeightBox from '../common/HeightBox';
+import { StyledButton } from './styles';
+import { FlexDiv } from './styles';
+import RightMarginBox from '../common/RightMarginBox';
+import './styles';
+import { StyledDiv } from './styles';
+import { addTodo } from '../../../api/todos';
+import { useMutation, useQueryClient } from 'react-query';
+import { useTodosQuery } from '../../../query/useTodosQuery';
+import { QUERY_KEYS } from '../../../query/keys.constant';
 
 /**
  * 컴포넌트 개요 : Todo 메인 페이지에서 제목과 내용을 입력하는 영역
@@ -18,25 +20,21 @@ import { useMutation, useQueryClient } from "react-query";
 function Input() {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(addTodo, {
-    onSuccess: (data) => {
-      console.log("data", data);
-      queryClient.invalidateQueries("todos");
-    },
-  });
+  const { addMutation } = useTodosQuery();
+  const { mutate: addMutate } = addMutation;
 
   // 컴포넌트 내부에서 사용할 state 2개(제목, 내용) 정의
-  const [title, setTitle] = useState("");
-  const [contents, setContents] = useState("");
+  const [title, setTitle] = useState('');
+  const [contents, setContents] = useState('');
 
   // 에러 메시지 발생 함수
   const getErrorMsg = (errorCode, params) => {
     switch (errorCode) {
-      case "01":
+      case '01':
         return alert(
           `[필수 입력 값 검증 실패 안내]\n\n제목과 내용은 모두 입력돼야 합니다. 입력값을 확인해주세요.\n입력된 값(제목 : '${params.title}', 내용 : '${params.contents}')`
         );
-      case "02":
+      case '02':
         return alert(
           `[내용 중복 안내]\n\n입력하신 제목('${params.title}')및 내용('${params.contents}')과 일치하는 TODO는 이미 TODO LIST에 등록되어 있습니다.\n기 등록한 TODO ITEM의 수정을 원하시면 해당 아이템의 [상세보기]-[수정]을 이용해주세요.`
         );
@@ -63,23 +61,25 @@ function Input() {
     // 제목과 내용이 모두 존재해야만 정상처리(하나라도 없는 경우 오류 발생)
     // "01" : 필수 입력값 검증 실패 안내
     if (!title || !contents) {
-      return getErrorMsg("01", { title, contents });
+      return getErrorMsg('01', { title, contents });
     }
 
     // 추가하려는 todo를 newTodo라는 객체로 세로 만듦
     const newTodo = {
       title,
       contents,
-      isDone: false,
+      isDone: false
     };
 
     // todo를 추가하는 reducer 호출
     // 인자 : payload
-    mutation.mutate(newTodo);
+    addMutate(newTodo, {
+      onSuccess: queryClient.invalidateQueries(QUERY_KEYS.TODOS)
+    });
 
     // state 두 개를 초기화
-    setTitle("");
-    setContents("");
+    setTitle('');
+    setContents('');
   };
 
   return (
